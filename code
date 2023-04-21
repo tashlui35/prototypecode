@@ -10,18 +10,15 @@ const int buttonMinusPin = 6;
 const int buttonPlusPin = 8;
 const int minMoveTime = 130;
 const int minServing = 300;
-const int ledPin = 13;
 int servingTime = 12555; // 12555 – 1 cup, 25110 – 2 cup, 37665 – 3 cup, 50220 – 4 cup
 int servingDelta = 150;
 int jerkPeriod = 700; // 1000/1000 – 9g, 1000/500 – 7g, 1400/700 – 12g
+int feedingTimes = 0;
 unsigned long lastFeeding=0;
 
 void setup ()
 {
     Serial.begin(57600);
-    Serial.println();
-    pinMode(ledPin, OUTPUT);
-    digitalWrite(ledPin, LOW);
     pinMode(buttonDispensePin, INPUT_PULLUP);
     pinMode(buttonMinusPin, INPUT_PULLUP);
     pinMode(buttonPlusPin, INPUT_PULLUP);
