@@ -4,10 +4,9 @@
 #define hour 3600000
 
 Servo servo;
-const int servoPin = 9;
-const int buttonDispensePin = 7;
-const int buttonMinusPin = 6;
-const int buttonPlusPin = 8;
+const int servoPin = ;
+const int servingsSizePin = ;
+const int numberofServingsPin = ;
 const int minMoveTime = 130;
 const int minServing = 300;
 int servingTime = 12555; // 12555 – 1 cup, 25110 – 2 cup, 37665 – 3 cup, 50220 – 4 cup
@@ -19,35 +18,25 @@ unsigned long lastFeeding=0;
 void setup ()
 {
     Serial.begin(57600);
-    pinMode(buttonDispensePin, INPUT_PULLUP);
-    pinMode(buttonMinusPin, INPUT_PULLUP);
-    pinMode(buttonPlusPin, INPUT_PULLUP);
+    pinMode(servingsSizePin, INPUT_PULLUP);
+    pinMode(numberofServingsPin, INPUT_PULLUP);
     buzz();
 }
 
 void loop () 
-{
-  int dispenseVal = digitalRead(buttonDispensePin);
-  if(dispenseVal == LOW)
-    dispense(servingTime);
-  int plusVal = digitalRead(buttonPlusPin);
-  if(plusVal == LOW){
+
+  int sizeVal = digitalRead(servingsSizePin);
+  if(sizeVal == LOW){
     delay(1000);
-    int plusVal = digitalRead(buttonPlusPin);
-    if(plusVal == LOW){
-      servingTime+=servingDelta;
-      buzz();
-    }    
-  }
-  int minusVal = digitalRead(buttonMinusPin);
-  if(minusVal == LOW){
-    delay(1000);
-    int minusVal = digitalRead(buttonMinusPin);
-    if(minusVal == LOW){
+    int sizeVal = digitalRead(servingsSizePin);
+    if(digitalRead == LOW){
       servingTime-=servingDelta;
       servingTime = servingTime<minServing?minServing:servingTime;
       buzz();
     }    
+  }
+    
+    
   }
   if(millis() - lastFeeding>12*hour)//
     dispense(servingTime);
