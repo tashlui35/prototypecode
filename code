@@ -24,24 +24,44 @@ void setup ()
 }
 
 void loop () 
-
+{
   int sizeVal = digitalRead(servingsSizePin);
-  if(sizeVal == LOW){
+  if(sizeVal == 0){
+    int servingTime = 12555;
     delay(1000);
-    int sizeVal = digitalRead(servingsSizePin);
-    if(digitalRead == LOW){
-      servingTime-=servingDelta;
-      servingTime = servingTime<minServing?minServing:servingTime;
       buzz();
     }    
-  }
+
+    if(sizeVal == 60){
+    int servingTime = 25110;
+    delay(1000);
+      buzz();
+    }    
     
+    if(sizeVal == 120){
+    int servingTime = 37665;
+    delay(1000);
+      buzz();
+    }       
     
+    if(sizeVal == 180){
+    int servingTime = 50220;
+    delay(1000);
+      buzz();
+    }    
+    
+  int timesVal = digitalRead(numberofServingsPin);
+  if(timesVal == LOW){
+      if(millis() - lastFeeding>24*hour)//
+        dispense(servingTime);
+      delay(10);
+      }
+      if(timesVal == HIGH){
+      if(millis() - lastFeeding>12*hour)//
+        dispense(servingTime);
+      delay(10);
+      }
   }
-  if(millis() - lastFeeding>12*hour)//
-    dispense(servingTime);
-  delay(10);
-}
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 
