@@ -4,9 +4,9 @@
 #define hour 3600000
 
 Servo servo;
-const int servoPin = ;
-const int servingsSizePin = ;
-const int numberofServingsPin = ;
+const int servoPin = 5;
+const int servingsSizePin = A0;
+const int numberofServingsPin = A1;
 const int minMoveTime = 130;
 const int minServing = 300;
 int servingTime = 12555; // 12555 – 1 cup, 25110 – 2 cup, 37665 – 3 cup, 50220 – 4 cup
