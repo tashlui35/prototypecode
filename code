@@ -6,12 +6,12 @@
 Servo servo;
 const int servoPin = 5;
 const int servingsSizePin = A0;
-const int numberofServingsPin = A1;
+const int numberofServingsPin = A2;
 const int minMoveTime = 130;
 const int minServing = 300;
 int servingTime = 12555; // 12555 – 1 cup, 25110 – 2 cup, 37665 – 3 cup, 50220 – 4 cup
 int servingDelta = 150;
-int jerkPeriod = 700; // 1000/1000 – 9g, 1000/500 – 7g, 1400/700 – 12g
+int jerkPeriod = 1200; // 1000/1000 – 9g, 1000/500 – 7g, 1400/700 – 12g
 int feedingTimes = 0;
 unsigned long lastFeeding=0;
 
@@ -25,6 +25,7 @@ void setup ()
 
 void loop () 
 {
+
   int sizeVal = digitalRead(servingsSizePin);
   if(sizeVal == 0){
     int servingTime = 12555;
@@ -56,8 +57,8 @@ void loop ()
         dispense(servingTime);
       delay(10);
       }
-      if(timesVal == HIGH){
-      if(millis() - lastFeeding>12*hour)//
+  if(timesVal == HIGH){
+      if(millis() - lastFeeding>1*minute)//
         dispense(servingTime);
       delay(10);
       }
