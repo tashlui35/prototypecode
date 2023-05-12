@@ -1,4 +1,5 @@
 #include <Servo.h>
+
 #define second 1000
 #define minute 60000
 #define hour 3600000
@@ -6,81 +7,87 @@
 Servo servo;
 const int servoPin = 5;
 const int servingsSizePin = A0;
-const int numberofServingsPin = A1;
-const int rotationTime = 2000; // Adjust this value based on your servo's speed for a full circle
-int servingTime = 12555;
+const int numberofServingsPin = A2;
+const int minMoveTime = 130;
+const int minServing = 300;
+int servingTime = 12555; 
 int servingDelta = 150;
-int jerkPeriod = 700;
+int jerkPeriod = 1200; 
 int feedingTimes = 0;
-unsigned long lastFeeding = 0;
+unsigned long lastFeeding=0;
 
 void setup ()
 {
-  Serial.begin(57600);
-  pinMode(servingsSizePin, INPUT_PULLUP);
-  pinMode(numberofServingsPin, INPUT_PULLUP);
-  buzz();
+    Serial.begin(57600);
+    pinMode(servingsSizePin, INPUT);
+    pinMode(numberofServingsPin, INPUT);
+    buzz();
 }
 
 void loop () 
 {
-  int sizeVal = digitalRead(servingsSizePin);
-  if(sizeVal == 0){
-    servingTime = 12555;
-    delay(1000);
-    buzz();
-  }    
+  int sizeVal = analogRead(servingsSizePin);
 
-  if(sizeVal == 60){
+  if(sizeVal < 256){
+    servingTime = 12555;
+  }    
+  else if(sizeVal < 512){
     servingTime = 25110;
-    delay(1000);
-    buzz();
   }    
-    
-  if(sizeVal == 120){
+  else if(sizeVal < 768){
     servingTime = 37665;
-    delay(1000);
-    buzz();
   }       
-    
-  if(sizeVal == 180){
+  else {
     servingTime = 50220;
-    delay(1000);
-    buzz();
-  }    
-    
-  int timesVal = digitalRead(numberofServingsPin);
-  if(timesVal == LOW){
-    if(millis() - lastFeeding > 24 * hour)
-      dispense(servingTime);
-    delay(10);
   }
-  if(timesVal == HIGH){
-    if(millis() - lastFeeding > 12 * hour)
-      dispense(servingTime);
-    delay(10);
+
+  int timesVal = analogRead(numberofServingsPin);
+  if(timesVal < 512){
+      if(millis() - lastFeeding > 24*hour)
+        dispense(servingTime);
   }
+  else{
+      if(millis() - lastFeeding > 12*hour)
+        dispense(servingTime);
+  }
+  delay(10);
 }
+
+#define countof(a) (sizeof(a) / sizeof(a[0]))
 
 void dispense(int dispenseTime)
 {
   lastFeeding = millis();
-  for(; dispenseTime > 0; dispenseTime -= jerkPeriod){
-    rotateFullCircle(rotationTime);
+  servo.attach(servoPin);
+  for(;dispenseTime>0;dispenseTime-=jerkPeriod){
+    servo.write(100);
+    delay(dispenseTime>=jerkPeriod ? jerkPeriod : dispenseTime%1000);
+    jerk();
   }
+  stop();
 }
 
-void rotateFullCircle(int rotationTime)
+void jerk()
 {
-  servo.attach(servoPin);
-  servo.write(0); // Set the servo to rotate in one direction (0 or 180, depending on your servo)
-  delay(rotationTime); // Adjust this delay to control the rotation time for a full circle
-  servo.write(90); // Stop the servo by setting it to its neutral position (usually 90)
+  servo.write(0);
+  delay(minMoveTime);
+  servo.write(180);
+  delay(minMoveTime);
+}
+
+void stop()
+{
+  servo.write(90);
+  delay(100);
   servo.detach();
 }
 
 void buzz()
 {
-  rotateFullCircle(rotationTime);
-  rotateFullCircle(rotationTime);
+  servo.attach(servoPin);
+  servo.write(0);
+  delay(50);
+  jerk();
+  jerk();
+  stop();
 }
