@@ -14,7 +14,7 @@ int servingTime = 12555;
 int servingDelta = 150;
 int jerkPeriod = 1200; 
 int feedingTimes = 0;
-unsigned long lastFeeding=0;
+unsigned long lastFeeding = 0;
 
 void setup ()
 {
@@ -91,3 +91,4 @@ void buzz()
   jerk();
   stop();
 }
+
