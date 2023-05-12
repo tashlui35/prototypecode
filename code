@@ -4,7 +4,7 @@
 #define hour 3600000
 
 Servo servo;
-const int servoPin = 5; // ground, 5v, 5
+const int servoPin = 5; // ground black, 5v red, 5 brown
 const int servingsSizePin = A0;
 const int numberofServingsPin = A2;
 const int minMoveTime = 130;
