@@ -11,7 +11,7 @@ const int minMoveTime = 130;
 const int minServing = 300;
 int servingTime = 12555; // 12555 – 1 cup, 25110 – 2 cup, 37665 – 3 cup, 50220 – 4 cup
 int servingDelta = 150;
-int jerkPeriod = 1200; // 1000/1000 – 9g, 1000/500 – 7g, 1400/700 – 12g
+int jerkPeriod = 1200; 
 int feedingTimes = 0;
 unsigned long lastFeeding=0;
 
